@@ -96,6 +96,6 @@ const projectSchema = new Schema(
   }
 );
 
-const Project = model("User", userSchema);
+const Project = model("Project", projectSchema);
 
 module.exports = Project;
