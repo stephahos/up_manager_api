@@ -21,15 +21,9 @@ const userSchema = new Schema(
       lowercase: true,
       trim: true,
     },
-    hashedPassword: {
+    password: {
       type: String,
       required: [true, "Password is required."],
-      validate: {
-        validator: function (v) {
-          return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v);
-        },
-        message: (props) => `${props.value} is not a valid email!`,
-      },
     },
     image: {
       type: String,
