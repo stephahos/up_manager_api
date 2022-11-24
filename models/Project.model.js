@@ -24,11 +24,12 @@ const projectSchema = new Schema(
         "ANGUILLA",
         "BRESIL",
         "BENIN",
+        "GERMANY",
         "IRAN",
         "NORWAY",
       ],
     },
-    geographicalZOne: {
+    geographicalZone: {
       type: String,
       enum: [
         "Europe",
@@ -76,6 +77,9 @@ const projectSchema = new Schema(
         "Abandoned",
         "Canceled",
       ],
+    },
+    deadLine: {
+      type: Date,
     },
     creator: {
       type: [Schema.Types.ObjectId],
