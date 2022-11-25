@@ -43,9 +43,12 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/verify", isAuthenticated, (req, res) => {
-  console.log(`req.payload`, req.payload);
+router.get("/verify", isAuthenticated, async (req, res) => {
+  //console.log(`req.payload`, req.payload);
   res.status(200).json({ payload: req.payload, message: "Token OK" });
+  const currentUser = await User.findById(req.payload.user._id).populate(
+    "createdProjects"
+  );
 });
 
 module.exports = router;

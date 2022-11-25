@@ -1,5 +1,6 @@
 const isAuthenticated = require("../middleware/middleware");
 const Project = require("../models/Project.model");
+const User = require("../models/User.model");
 
 const router = require("express").Router();
 
@@ -24,10 +25,14 @@ router.get("/projects/:id", async (req, res, next) => {
   }
 });
 
-router.post("/projects", async (req, res, next) => {
+router.post("/projects", isAuthenticated, async (req, res, next) => {
   const body = req.body;
-  console.log(body);
+  console.log("test", req.payload);
   const project = await Project.create(body);
+
+  const currentUser = await User.findByIdAndUpdate(req.payload.user._id, {
+    $push: { createdProjects: project._id },
+  });
 
   res.status(201).json({ project });
 });
