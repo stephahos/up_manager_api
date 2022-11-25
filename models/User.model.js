@@ -29,7 +29,10 @@ const userSchema = new Schema(
       type: String,
       default: "ironhacklogo.png",
     },
-    isManager: Boolean,
+    isManager: {
+      type: Boolean,
+      default: false,
+    },
     createdProjects: {
       type: [Schema.Types.ObjectId],
       ref: "Project",
