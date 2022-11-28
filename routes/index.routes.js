@@ -1,6 +1,5 @@
 const isAuthenticated = require("../middleware/middleware");
 const Project = require("../models/Project.model");
-
 const router = require("express").Router();
 
 router.get("/", (req, res, next) => {
