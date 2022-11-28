@@ -22,7 +22,7 @@ const projectSchema = new Schema(
         "ALGERIA",
         "ANGOLA",
         "ANGUILLA",
-        "BRESIL",
+        "BRAZIL",
         "BENIN",
         "GERMANY",
         "IRAN",
@@ -81,7 +81,7 @@ const projectSchema = new Schema(
     deadLine: {
       type: Date,
     },
-    creator: {
+    createdBy: {
       type: [Schema.Types.ObjectId],
       ref: "User",
     },
@@ -89,7 +89,11 @@ const projectSchema = new Schema(
       type: [Schema.Types.ObjectId],
       ref: "User",
     },
-    validator: {
+    validationStatus: {
+      type: String,
+      enum: ["pending", "validated", "rejected"],
+    },
+    validatedBy: {
       type: [Schema.Types.ObjectId],
       ref: "User",
     },
