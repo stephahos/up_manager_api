@@ -1,8 +1,8 @@
 const isAuthenticated = require("../middleware/middleware");
 const Project = require("../models/Project.model");
 const User = require("../models/User.model");
-
 const router = require("express").Router();
+const uploader = require('../middleware/cloudinary.config.js');
 
 router.get("/", (req, res, next) => {
   res.json("All good in here");
@@ -104,6 +104,20 @@ router.delete("/events/:id", async (req, res, next) => {
 router.get("/users", async (req, res, next) => {
   const users = await User.find();
   res.json(users);
+});
+
+router.post('/upload/:id', uploader.single("imageUrl"), async (req, res, next) => {
+  console.log('file is: ', req.file)
+  const { id } = req.params
+  const updatedUser = await User.findByIdAndUpdate(id, {image:req.file.path},{new:true});
+  console.log(updatedUser)
+
+  if (!req.file) {
+    console.log("there was an error uploading the file")
+    next(new Error('No file uploaded!'));
+    return;
+  }
+  res.json(updatedUser)
 });
 
 module.exports = router;

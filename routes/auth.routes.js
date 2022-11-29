@@ -63,4 +63,35 @@ router.get("/verify", isAuthenticated, async (req, res) => {
   );
 });
 
+router.get("/profile/:id", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const userProfile = await User.findById(id);
+
+    res.json({ ...userProfile._doc });
+  } catch (error) {
+    res.status(404).json({ message: "No profile in here" });
+  }
+});
+
+router.post("/profile/id", isAuthenticated, async (req, res, next) => {
+  const body = req.body;
+  const user = await User.create(body);
+
+  const currentUser = await User.findByIdAndUpdate(req.payload.User._id, {
+    $push: { createdUser: User._id },
+  });
+
+  router.put("/profile/:id", async (req, res, next) => {
+    const { id } = req.params;
+    const body = req.body;
+  
+    const user = await User.findByIdAndUpdate(id, body, { new: true });
+    res.json({ user });
+  });
+
+  res.status(201).json({ user});
+});
+
+
 module.exports = router;
