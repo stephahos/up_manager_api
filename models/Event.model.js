@@ -5,8 +5,9 @@ const eventSchema = new Schema(
     name: {
       type: String,
       required: [true, "Event name is required."],
-      unique: true,
-      trim: true,
+    },
+    eventAddress: {
+      type: String,
     },
     date: {
       type: Date,
@@ -15,7 +16,7 @@ const eventSchema = new Schema(
     comment: {
       type: String,
     },
-    topics: {
+    topic: {
       type: String,
       enum: [
         "Project presentation",

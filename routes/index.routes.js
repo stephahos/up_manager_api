@@ -53,4 +53,57 @@ router.delete("/projects/:id", async (req, res, next) => {
   res.json(project);
 });
 
+// Event Routes
+
+router.get("/events", async (req, res, next) => {
+  const events = await Event.find();
+
+  res.json(events);
+});
+
+router.get("/events/:id", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const event = await Event.findById(id);
+
+    res.json({ ...event._doc });
+  } catch (error) {
+    res.status(404).json({ message: "No event with this id" });
+  }
+});
+
+router.post("/events", isAuthenticated, async (req, res, next) => {
+  const body = req.body;
+  console.log("test", req.payload);
+  const event = await Event.create(body);
+
+  const currentEvent = await Event.findByIdAndUpdate(req.payload.event._id, {
+    $push: { createdEvents: event._id },
+  });
+
+  res.status(201).json({ event });
+});
+
+router.put("/events/:id", async (req, res, next) => {
+  const { id } = req.params;
+  const body = req.body;
+
+  const event = await Event.findByIdAndUpdate(id, body, { new: true });
+
+  res.json({ event });
+});
+
+router.delete("/events/:id", async (req, res, next) => {
+  const { id } = req.params;
+  const event = await Event.findByIdAndDelete(id);
+
+  res.json(event);
+});
+
+// Users Routes
+router.get("/users", async (req, res, next) => {
+  const users = await User.find();
+  res.json(users);
+});
+
 module.exports = router;

@@ -5,13 +5,11 @@ const userSchema = new Schema(
     firstName: {
       type: String,
       required: [true, "firstName is required."],
-      unique: true,
       trim: true,
     },
     lastName: {
       type: String,
       required: [true, "LastName is required."],
-      unique: true,
       trim: true,
     },
     email: {
