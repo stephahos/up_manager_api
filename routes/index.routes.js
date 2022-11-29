@@ -1,13 +1,10 @@
 const isAuthenticated = require("../middleware/middleware");
 const Project = require("../models/Project.model");
 const User = require("../models/User.model");
-<<<<<<< Updated upstream
-=======
 const Event = require("../models/Event.model");
 
->>>>>>> Stashed changes
 const router = require("express").Router();
-const uploader = require('../middleware/cloudinary.config.js');
+const uploader = require("../middleware/cloudinary.config.js");
 
 router.get("/", (req, res, next) => {
   res.json("All good in here");
@@ -112,18 +109,26 @@ router.get("/users", async (req, res, next) => {
   res.json(users);
 });
 
-router.post('/upload/:id', uploader.single("imageUrl"), async (req, res, next) => {
-  console.log('file is: ', req.file)
-  const { id } = req.params
-  const updatedUser = await User.findByIdAndUpdate(id, {image:req.file.path},{new:true});
-  console.log(updatedUser)
+router.post(
+  "/upload/:id",
+  uploader.single("imageUrl"),
+  async (req, res, next) => {
+    console.log("file is: ", req.file);
+    const { id } = req.params;
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      { image: req.file.path },
+      { new: true }
+    );
+    console.log(updatedUser);
 
-  if (!req.file) {
-    console.log("there was an error uploading the file")
-    next(new Error('No file uploaded!'));
-    return;
+    if (!req.file) {
+      console.log("there was an error uploading the file");
+      next(new Error("No file uploaded!"));
+      return;
+    }
+    res.json(updatedUser);
   }
-  res.json(updatedUser)
-});
+);
 
 module.exports = router;
