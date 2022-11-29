@@ -76,7 +76,6 @@ router.get("/events/:id", async (req, res, next) => {
 
 router.post("/events", isAuthenticated, async (req, res, next) => {
   const body = req.body;
-  console.log("the body", body);
 
   const event = await Event.create(body);
 
@@ -113,14 +112,12 @@ router.post(
   "/upload/:id",
   uploader.single("imageUrl"),
   async (req, res, next) => {
-    console.log("file is: ", req.file);
     const { id } = req.params;
     const updatedUser = await User.findByIdAndUpdate(
       id,
       { image: req.file.path },
       { new: true }
     );
-    console.log(updatedUser);
 
     if (!req.file) {
       console.log("there was an error uploading the file");
