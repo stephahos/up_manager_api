@@ -1,6 +1,11 @@
 const isAuthenticated = require("../middleware/middleware");
 const Project = require("../models/Project.model");
 const User = require("../models/User.model");
+<<<<<<< Updated upstream
+=======
+const Event = require("../models/Event.model");
+
+>>>>>>> Stashed changes
 const router = require("express").Router();
 const uploader = require('../middleware/cloudinary.config.js');
 
@@ -74,10 +79,11 @@ router.get("/events/:id", async (req, res, next) => {
 
 router.post("/events", isAuthenticated, async (req, res, next) => {
   const body = req.body;
-  console.log("test", req.payload);
+  console.log("the body", body);
+
   const event = await Event.create(body);
 
-  const currentEvent = await Event.findByIdAndUpdate(req.payload.event._id, {
+  const currentUser = await Event.findByIdAndUpdate(req.payload.user._id, {
     $push: { createdEvents: event._id },
   });
 
