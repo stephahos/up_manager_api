@@ -29,11 +29,11 @@ router.get("/projects/:id", async (req, res, next) => {
 
 router.post("/projects", isAuthenticated, async (req, res, next) => {
   const body = req.body;
-  console.log("test", req.payload);
-  const project = await Project.create(body);
 
-  const currentUser = await User.findByIdAndUpdate(req.payload.user._id, {
-    $push: { createdProjects: project._id },
+  const currentUser = await User.findById(req.payload.user._id);
+  const project = await Project.create({ ...body, createdBy: currentUser._id });
+  await User.findByIdAndUpdate(req.payload.user._id, {
+    $push: { createdProjects: project },
   });
 
   res.status(201).json({ project });

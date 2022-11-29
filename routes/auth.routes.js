@@ -18,7 +18,7 @@ router.post("/signup", async (req, res) => {
     if (emailUser.email === "sara@sara.com.br") {
       await User.findOneAndUpdate(emailUser._id, { isManager: true });
     }
-    res.status(201).json({ message: "User created" });
+    res.status(201).json({ status: 201, message: "User created" });
   } else {
     res
       .status(400)
@@ -56,11 +56,12 @@ router.post("/login", async (req, res) => {
 });
 
 router.get("/verify", isAuthenticated, async (req, res) => {
-  //console.log(`req.payload`, req.payload);
-  res.status(200).json({ payload: req.payload, message: "Token OK" });
   const currentUser = await User.findById(req.payload.user._id).populate(
     "createdProjects"
   );
+  res
+    .status(200)
+    .json({ payload: req.payload, message: "Token OK", user: currentUser });
 });
 
 router.get("/profile/:id", async (req, res, next) => {

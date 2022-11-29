@@ -92,7 +92,7 @@ const projectSchema = new Schema(
     validationStatus: {
       type: String,
       default: "pending",
-      enum: ["validated", "rejected"],
+      enum: ["pending", "validated", "rejected"],
     },
     validatedBy: {
       type: [Schema.Types.ObjectId],
