@@ -9,9 +9,21 @@ router.post("/signup", async (req, res) => {
   // Encrypt pwd
   const salt = genSaltSync(11);
   const hashedPassword = hashSync(password, salt);
+  const userEmail = await User.findOne({ email: req.body.email });
   // Record to DB
-  await User.create({ firstName, lastName, email, password: hashedPassword });
-  res.status(201).json({ message: "User created" });
+  if (userEmail === null) {
+    await User.create({ firstName, lastName, email, password: hashedPassword });
+    const emailUser = await User.findOne({ email });
+
+    if (emailUser.email === "sara@sara.com.br") {
+      await User.findOneAndUpdate(emailUser._id, { isManager: true });
+    }
+    res.status(201).json({ message: "User created" });
+  } else {
+    res
+      .status(400)
+      .json({ message: "We already have a user with that e-mail." });
+  }
 });
 
 router.post("/login", async (req, res) => {

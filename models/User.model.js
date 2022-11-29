@@ -10,6 +10,7 @@ const userSchema = new Schema(
     lastName: {
       type: String,
       required: [true, "LastName is required."],
+
       trim: true,
     },
     email: {
@@ -25,7 +26,8 @@ const userSchema = new Schema(
     },
     image: {
       type: String,
-      default: "ironhacklogo.png",
+      default:
+        "https://cdn-icons-png.flaticon.com/512/1250/1250689.png?w=826&t=st=1669674003~exp=1669674603~hmac=a30a84d9ca89cb8f87b774d921d2b9cec081e33718e6c87761ad4e3d1c0f245e",
     },
     isManager: {
       type: Boolean,
