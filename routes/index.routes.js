@@ -19,7 +19,7 @@ router.get("/projects", async (req, res, next) => {
 router.get("/projects/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
-    const project = await Project.findById(id);
+    const project = await Project.findById(id).populate("createdBy");
 
     res.json({ ...project._doc });
   } catch (error) {
@@ -31,7 +31,10 @@ router.post("/projects", isAuthenticated, async (req, res, next) => {
   const body = req.body;
 
   const currentUser = await User.findById(req.payload.user._id);
-  const project = await Project.create({ ...body, createdBy: currentUser._id });
+  const project = await Project.create({
+    ...body,
+    createdBy: currentUser,
+  });
   await User.findByIdAndUpdate(req.payload.user._id, {
     $push: { createdProjects: project },
   });

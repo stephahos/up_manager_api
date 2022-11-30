@@ -82,7 +82,7 @@ const projectSchema = new Schema(
       type: Date,
     },
     createdBy: {
-      type: [Schema.Types.ObjectId],
+      type: Schema.Types.ObjectId,
       ref: "User",
     },
     contributor: {

@@ -86,13 +86,12 @@ router.post("/profile/id", isAuthenticated, async (req, res, next) => {
   router.put("/profile/:id", async (req, res, next) => {
     const { id } = req.params;
     const body = req.body;
-  
+
     const user = await User.findByIdAndUpdate(id, body, { new: true });
     res.json({ user });
   });
 
-  res.status(201).json({ user});
+  res.status(201).json({ user });
 });
-
 
 module.exports = router;
