@@ -61,7 +61,11 @@ router.delete("/projects/:id", async (req, res, next) => {
 // Event Routes
 
 router.get("/events", async (req, res, next) => {
-  const events = await Event.find().populate("participants", "createdBy");
+  const events = await Event.find().populate(
+    "participants"
+    /* "createdBy" */
+    /*  "projectsReviewed" */
+  );
 
   res.json(events);
 });
@@ -70,8 +74,9 @@ router.get("/events/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
     const event = await Event.findById(id).populate(
-      "createdBy",
+      /* "createdBy", */
       "participants"
+      /* "projectsReviewed" */
     );
 
     res.json({ ...event._doc });
