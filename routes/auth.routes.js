@@ -15,7 +15,10 @@ router.post("/signup", async (req, res) => {
     await User.create({ firstName, lastName, email, password: hashedPassword });
     const emailUser = await User.findOne({ email });
 
-    if (emailUser.email === "sara@sara.com.br") {
+    if (
+      emailUser.email === "sara@sara.com.br" ||
+      emailUser.email === "steph@steph.com"
+    ) {
       await User.findOneAndUpdate(emailUser._id, { isManager: true });
     }
     res.status(201).json({ status: 201, message: "User created" });

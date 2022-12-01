@@ -11,7 +11,7 @@ router.get("/", (req, res, next) => {
 });
 
 router.get("/projects", async (req, res, next) => {
-  const projects = await Project.find();
+  const projects = await Project.find().populate("createdBy");
 
   res.json(projects);
 });
@@ -61,7 +61,7 @@ router.delete("/projects/:id", async (req, res, next) => {
 // Event Routes
 
 router.get("/events", async (req, res, next) => {
-  const events = await Event.find();
+  const events = await Event.find().populate("participants");
 
   res.json(events);
 });
@@ -82,7 +82,7 @@ router.post("/events", isAuthenticated, async (req, res, next) => {
 
   const event = await Event.create(body);
 
-  const currentUser = await Event.findByIdAndUpdate(req.payload.user._id, {
+  const currentUser = await User.findByIdAndUpdate(req.payload.user._id, {
     $push: { createdEvents: event._id },
   });
 
