@@ -17,7 +17,8 @@ router.post("/signup", async (req, res) => {
 
     if (
       emailUser.email === "sara@sara.com.br" ||
-      emailUser.email === "steph@steph.com"
+      emailUser.email === "steph@steph.com" ||
+      emailUser.email === "shirin@shirin.com"
     ) {
       await User.findOneAndUpdate(emailUser._id, { isManager: true });
     }
@@ -78,7 +79,7 @@ router.get("/profile/:id", async (req, res, next) => {
   }
 });
 
-router.post("/profile/id", isAuthenticated, async (req, res, next) => {
+router.post("/profile/:id", isAuthenticated, async (req, res, next) => {
   const body = req.body;
   const user = await User.create(body);
 
@@ -86,15 +87,18 @@ router.post("/profile/id", isAuthenticated, async (req, res, next) => {
     $push: { createdUser: User._id },
   });
 
+
+
+  res.status(201).json({ user });
+});
+
   router.put("/profile/:id", async (req, res, next) => {
+    console.log("hello")
     const { id } = req.params;
     const body = req.body;
 
     const user = await User.findByIdAndUpdate(id, body, { new: true });
     res.json({ user });
   });
-
-  res.status(201).json({ user });
-});
-
+  
 module.exports = router;
