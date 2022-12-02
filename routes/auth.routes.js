@@ -87,18 +87,15 @@ router.post("/profile/:id", isAuthenticated, async (req, res, next) => {
     $push: { createdUser: User._id },
   });
 
-
-
   res.status(201).json({ user });
 });
 
-  router.put("/profile/:id", async (req, res, next) => {
-    console.log("hello")
-    const { id } = req.params;
-    const body = req.body;
+router.put("/profile/:id", async (req, res, next) => {
+  const { id } = req.params;
+  const body = req.body;
 
-    const user = await User.findByIdAndUpdate(id, body, { new: true });
-    res.json({ user });
-  });
-  
+  const user = await User.findByIdAndUpdate(id, body, { new: true });
+  res.json({ user });
+});
+
 module.exports = router;
